@@ -21,7 +21,7 @@ def loss_(y, y_hat):
 	squared_error = (y_hat - y) ** 2
 	sum_squared_error = sum(squared_error)
 	hmse = sum_squared_error / (y.size*2)
-	return mse
+	return hmse
 
 if __name__=="__main__":
 	X = np.array([[0], [15], [-9], [7], [12], [3], [-21]])
