@@ -19,9 +19,7 @@ def loss_(y, y_hat):
 		print("Error arguments are wrong")
 		return None
 	squared_error = (y_hat - y) ** 2
-	print(squared_error)
 	sum_squared_error = sum(squared_error)
-	print(sum_squared_error)
 	mse = sum_squared_error / (y.size*2)
 	return mse
 
