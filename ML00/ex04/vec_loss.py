@@ -20,7 +20,7 @@ def loss_(y, y_hat):
 		return None
 	squared_error = (y_hat - y) ** 2
 	sum_squared_error = sum(squared_error)
-	mse = sum_squared_error / (y.size*2)
+	hmse = sum_squared_error / (y.size*2)
 	return mse
 
 if __name__=="__main__":
