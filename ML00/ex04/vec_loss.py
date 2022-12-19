@@ -14,12 +14,16 @@ def loss_(y, y_hat):
 	Raises:
 	  This function should not raise any Exceptions.
 	"""
-	if not (isinstance(y, np.ndarray) and isinstance(y_hat, np.ndarray)) or y.shape not in [(y.size,), (y.size, 1)] or y_hat.shape not in [(y_hat.size,), (y_hat.size, 1)]:
+	if not (isinstance(y, np.ndarray) and isinstance(y_hat, np.ndarray)) or\
+		y.shape not in [(y.size,), (y.size, 1)] or y_hat.shape not in [(y_hat.size,), (y_hat.size, 1)]:
 		print("Error arguments are wrong")
 		return None
-	loss = pow((y - y_hat), 2) * 1/(2 *len(y))
-	mean(loss)
-	return loss
+	squared_error = (y_hat - y) ** 2
+	print(squared_error)
+	sum_squared_error = sum(squared_error)
+	print(sum_squared_error)
+	mse = sum_squared_error / (y.size*2)
+	return mse
 
 if __name__=="__main__":
 	X = np.array([[0], [15], [-9], [7], [12], [3], [-21]])
