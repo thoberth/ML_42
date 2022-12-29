@@ -17,11 +17,10 @@ def simple_gradient(x, y, theta):
 	"""
 	if len(x.shape) == 1:
 		x = x.reshape(-1, 1)
-	def h(x): return theta[0] + theta[1] * x # ax + b
-	X_theta = h(x) # contient les resultats de la prediction
-	# contient l'inverse de : la matrice x concatener un colonne de 1
-	X_T = np.concatenate((np.ones((x.shape[0], 1)), x), axis=1)
-	J_theta = (1 / len(y)) * (X_T.T.dot((X_theta - y)))
+	# contient la tranposé de : la matrice x concatener un colonne de 1
+	X = np.concatenate((np.ones((x.shape[0], 1)), x), axis = 1)
+	X_theta = X @ theta # contient les resultats de la prediction, @ -> operateur de produit matricielle
+	J_theta = (1 / len(y)) * (X.T.dot((X_theta - y)))
 	return J_theta
 
 if __name__ == "__main__":
@@ -38,3 +37,5 @@ if __name__ == "__main__":
 
 	print(simple_gradient(x, y, theta1), end='\n\n')
 	print(simple_gradient(x, y, theta2))
+
+	# ADD THE CHECK FOR THE INPUT OF SIMPLE_GRADIENT
