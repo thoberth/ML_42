@@ -43,5 +43,4 @@ if __name__ == "__main__":
 	print(theta2, end='\n\n\n')
 	print(predict_(x, theta2))
 
-
 # ADD THE CHECK FOR THE INPUT OF FIT
