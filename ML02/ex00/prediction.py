@@ -14,6 +14,9 @@ def predict_(x, theta):
 	Raises:
 	This function should not raise any Exception.
 	"""
+	if not (isinstance(x, np.ndarray) or isinstance(theta, np.ndarray)):
+		print("Error in args, they must be np.ndarray")
+		return None
 	x = np.concatenate((np.ones((x.shape[0], 1)), x), axis = 1)
 	y_hat = x @ theta
 	return y_hat
