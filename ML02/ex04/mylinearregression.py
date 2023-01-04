@@ -35,6 +35,11 @@ class MyLinearRegression:
 		sum_squared_error = sum(squared_error)
 		return sum_squared_error / (y.size*2)
 
+	def mse_(self, y, y_hat):
+		squared_error = self.loss_elem_(y, y_hat)
+		sum_squared_error = sum(squared_error)
+		return sum_squared_error / (y.size)
+
 if __name__=="__main__":
 	X = np.array([[1., 1., 2., 3.], [5., 8., 13., 21.], [34., 55., 89., 144.]])
 	Y = np.array([[23.], [48.], [218.]])
