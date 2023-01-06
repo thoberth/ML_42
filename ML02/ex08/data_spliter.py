@@ -18,7 +18,7 @@ def data_spliter(x, y, proportion):
 	This function should not raise any Exception.
 	"""
 	if not (isinstance(x, np.ndarray) and isinstance(y, np.ndarray) and isinstance(proportion, float)) or\
-		x.shape[0] != y.shape[0] or np.size(x) == 0 or np.size(y) == 0 or proportion >= 1 or proportion <= 0:
+		x.shape[0] != y.shape[0] or np.size(x) == 0 or np.size(y) == 0 or proportion > 1 or proportion <= 0:
 		print('Error in arguments')
 		return None
 	new_size = int(x.shape[0] * proportion)
