@@ -1,3 +1,4 @@
+import math
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
@@ -5,12 +6,15 @@ import os, sys
 sys.path.append(os.path.abspath("../ex04/"))
 sys.path.append(os.path.abspath("../ex06/"))
 sys.path.append(os.path.abspath("../ex08/"))
+sys.path.append(os.path.abspath("../../ML01/ex04/"))
+from z_score import zscore
 from data_spliter import data_spliter
 from mylinearregression import MyLinearRegression as MyLR
 from polynomial_model import *
 
-def	polynome_features(x):
-	X = add_polynomial_features(x, 4)
+def	polynome_features_and_stand(x):
+	X = zscore(x)
+	X = add_polynomial_features(X, 4)
 	return (X)
 
 if __name__=="__main__":
@@ -19,35 +23,35 @@ if __name__=="__main__":
 	Wfeat = df['weight'].to_numpy().reshape(-1, 1)
 	Pfeat = df['prod_distance'].to_numpy().reshape(-1, 1)
 	Tfeat = df['time_delivery'].to_numpy().reshape(-1, 1)
-	Wfeat = polynome_features(Wfeat)
-	Pfeat = polynome_features(Pfeat)
-	Tfeat = polynome_features(Tfeat)
-	# pensez a faire la standardization des donnees
-	for a in range(Wfeat.shape[1]):
-		for b in range(Pfeat.shape[1]):
-			for c in range(Tfeat.shape[1]):
-				# ici faire les test et mesurer les mse avec Wfeat[:, :(a+1)], Pfeat[:, :b+1], Tfeat[:, :c+1]
-				# print(Wfeat[:, :(a+1)])
-				lr = MyLR([[1.] for _ in range( a + b + c + 1)])
-
-	# for col in range(2, Xfeatures.shape[1],):
-	# 	# plt.subplot(3,2, col+1)
-	# 	plt.figure(figsize=(12, 12))
-	# 	plt.scatter(Xfeatures[:, col], Yprice, label='Ptrue', c='#0b68e0')
-	# 	for a in range(1,6):
-	# 		to_train = data_spliter(Xfeatures, Yprice, float(a / 5))
-	# 		for i in range(1, 5):
-	# 			lr = MyLR([[1.] for _ in range(i + 1)], alpha=1e-7, max_iter=100000)
-	# 			X = add_polynomial_features(to_train[0][:, 0].reshape(-1, 1), i)
-	# 			for col_polynom in range(1, to_train[0].shape[1]):
-	# 				X = np.concatenate((X, add_polynomial_features(
-	# 					to_train[0][:, col_polynom].reshape(-1, 1), i)), axis=1)
-	# 			print(X.shape)
-	# 			lr.fit_(X, to_train[2])
-	# 			Ypredict = lr.predict_(X)
-	# 			plt.plot(X[:, col], Ypredict, label=f'$Spredict_{i},{a/5}$', )
-	# 	plt.ylim([Yprice.min() - 10, Yprice.max() + 10])
-	# 	plt.xlim([Xfeatures[:, col].min() - 10, Xfeatures[:, col].max() + 10])
-	# 	plt.grid()
-	# 	plt.legend()
-	# plt.show()
+	# la standardization (zscore) et l'ajout de valeur carre (polynome) des donnees
+	Wfeat = polynome_features_and_stand(Wfeat)
+	Pfeat = polynome_features_and_stand(Pfeat)
+	Tfeat = polynome_features_and_stand(Tfeat)
+	Yprice = zscore(Yprice)
+	Xfeatures = np.concatenate(
+		(Wfeat, np.concatenate((Pfeat, Tfeat), axis=1)), axis=1)
+	Xtrain, Xtest, Ytrain, Ytest = data_spliter(Xfeatures, Yprice, 0.5)
+	Bmse = None
+	i = 0
+	fig, ax = plt.subplots()
+	plt.grid()
+	for a in range(1, Wfeat.shape[1] + 1):
+		for b in range(1, Pfeat.shape[1] + 1):
+			for c in range(1, Tfeat.shape[1] + 1):
+				lr = MyLR([[1.] for _ in range( a + b + c + 1)], alpha=1e-1, max_iter=2000)
+				X = np.concatenate((Xtrain[:, :a],
+					np.concatenate((Xtrain[:, 4:4+b], Xtrain[:, 8:8+c]), axis = 1)), axis=1)
+				lr.fit_(X, Ytrain)
+				Xto_test = np.concatenate((Xtest[:, :a],
+					np.concatenate((Xtest[:, 4:4+b], Xtest[:, 8:8+c]), axis=1)), axis=1)
+				Ypredict = lr.predict_(Xto_test)
+				mse = lr.mse_(Ytest, Ypredict)
+				if not (math.isinf(mse) and math.isnan(mse)):
+					i+=1
+					ax.scatter(i, mse)
+				if Bmse == None or Bmse[3] > mse and not math.isnan(mse):
+					Bmse = [[a], [b], [c], [mse], [lr]]
+				print(f'for a p={a}, b p={b}, c p={c} mse={mse}')
+	print(f'\n\nwe found that the best models is a p={Bmse[0]},\
+ b p={Bmse[1]}, c p={Bmse[2]} with mse={float(Bmse[3][0])}')
+	plt.show()
