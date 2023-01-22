@@ -20,22 +20,23 @@ def logistic_predict_(x, theta):
 		print('logistic predict function error in parameters')
 		return None
 	x = np.concatenate((np.ones((x.shape[0], 1)), x), axis = 1)
-	y_hat = x @ theta
-	print(y_hat)
+	y_hat = np.ones((x.shape[0], 1))
+	for i in range(x.shape[0]):
+		y_hat[i][0] = (1. / (1. + math.exp(-(x[i] @ theta))))
 	return y_hat
 
 if __name__ == "__main__":
 	x = np.array([4]).reshape((-1, 1))
-	print(x)
+	# print(x)
 	theta = np.array([[2], [0.5]])
 	print(logistic_predict_(x, theta))
 
 	x2 = np.array([[4], [7.16], [3.2], [9.37], [0.56]])
-	print(x2)
+	# print(x2)
 	theta2 = np.array([[2], [0.5]])
-	# logistic_predict_(x2, theta2)
+	print(logistic_predict_(x2, theta2))
 
 	x3 = np.array([[0, 2, 3, 4], [2, 4, 5, 5], [1, 3, 2, 7]])
-	print(x3)
+	# print(x3)
 	theta3 = np.array([[-2.4], [-1.5], [0.3], [-1.4], [0.7]])
-	# logistic_predict_(x3, theta3)
+	print(logistic_predict_(x3, theta3))
