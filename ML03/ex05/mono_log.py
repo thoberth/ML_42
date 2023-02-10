@@ -22,3 +22,9 @@ if __name__ == "__main__":
 			raise Exception()
 	except:
 		print('Error with value of "-zipcode" value must be an int between 0 - 3')
+
+#### 1 SPLIT DATASET INTO TRAINING AND TEST SET
+	data = pd.read_csv("solar_system_census.csv")
+	data_planet = pd.read_csv("solar_system_census_planets.csv")
+	# data_planet.drop(data_planet.columns[data_planet.columns.str.contains('Unnamed', case = False)], axis=1, inplace=True)
+	
