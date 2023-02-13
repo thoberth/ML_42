@@ -15,7 +15,7 @@ def zscore(x):
 		print('Error, x is not valid, it should be a np.ndarray, a vector')
 		return None
 	u = np.sum(x) / x.size
-	o = math.sqrt(sum([(x_elem - u) ** 2 for x_elem in x]) / x.size - 1)
+	o = math.sqrt(sum([(x_elem - u) ** 2 for x_elem in x]) / (x.size - 1))
 	x_prime = (x - u) / o
 	return x_prime
 
