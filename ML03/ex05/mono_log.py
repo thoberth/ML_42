@@ -57,32 +57,30 @@ if __name__ == "__main__":
 			count += 1
 	print('On predit avec les test set et on obtient:', (count*100)/len(y_hat_test), '% de valeur exacte')
 #### 6 plot 3 scatter
-	plt.figure()
-	plt.scatter(x_test[:, 0], y_hat_test,
-	            label='prediction', c='#51348a', alpha=0.5)
-	plt.scatter(x_test[:, 0], y_test, label='vraie valeur',
-	            c='#32a852', alpha=0.5)
-	plt.xlabel('Weight')
-	plt.ylabel('1 = is from our Planet,\n0 = is not from our Planet')
-	plt.legend()
-	plt.show()
+	fig, (ax1, ax2, ax3) = plt.subplots(1, 3)
+	fig.set_size_inches(16, 10)
 
-	plt.figure()
-	plt.scatter(x_test[:, 1], y_hat_test,
+	ax1.scatter(x_test[:, 0], y_hat_test,
 	            label='prediction', c='#51348a', alpha=0.5)
-	plt.scatter(x_test[:, 1], y_test, label='vraie valeur',
+	ax1.scatter(x_test[:, 0], y_test, label='vraie valeur',
 	            c='#32a852', alpha=0.5)
-	plt.legend()
-	plt.xlabel('Height')
-	plt.ylabel('1 = is from our Planet,\n0 = is not from our Planet')
-	plt.show()
+	ax1.set_xlabel('Weight')
+	ax1.set_ylabel('1 = is from our Planet,\n0 = is not from our Planet')
+	ax1.legend()
 
-	plt.figure()
-	plt.scatter(x_test[:, 2], y_hat_test,
+	ax2.scatter(x_test[:, 1], y_hat_test,
 	            label='prediction', c='#51348a', alpha=0.5)
-	plt.scatter(x_test[:, 2], y_test, label='vraie valeur',
+	ax2.scatter(x_test[:, 1], y_test, label='vraie valeur',
 	            c='#32a852', alpha=0.5)
-	plt.xlabel('Bone Density')
-	plt.ylabel('1 = is from our Planet,\n0 = is not from our Planet')
-	plt.legend()
+	ax2.legend()
+	ax2.set_xlabel('Height')
+	ax2.set_ylabel('1 = is from our Planet,\n0 = is not from our Planet')
+
+	ax3.scatter(x_test[:, 2], y_hat_test,
+	            label='prediction', c='#51348a', alpha=0.5)
+	ax3.scatter(x_test[:, 2], y_test, label='vraie valeur',
+	            c='#32a852', alpha=0.5)
+	ax3.set_xlabel('Bone Density')
+	ax3.set_ylabel('1 = is from our Planet,\n0 = is not from our Planet')
+	ax3.legend()
 	plt.show()
