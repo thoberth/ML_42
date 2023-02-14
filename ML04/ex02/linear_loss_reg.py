@@ -14,13 +14,6 @@ def reg_loss_(y, y_hat, theta, lambda_):
 	Raises:
 		This function should not raise any Exception.
 	"""
-	# A = np.array([[1], [2], [3], [4], [5], [6], [7]])
-
-
-	# B = np.array([[7], [6], [5], [4], [3], [2], [1]])
-
-	# result = np.dot(A, B.T)
-	# print(result)
 	theta_prime = np.array(theta)
 	theta_prime[0][0] = 0
 	loss = float((y_hat - y).T.dot(y_hat - y))
