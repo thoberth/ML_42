@@ -2,7 +2,7 @@ import os, sys
 from parent_class import MyLogisticRegression as ParentMLR
 import numpy as np
 
-class MyLogistcRegression(ParentMLR):
+class MyLogisticRegression(ParentMLR):
 	"""
 		Description:
 		My personnal logistic regression to classify things.
@@ -38,7 +38,7 @@ class MyLogistcRegression(ParentMLR):
 
 
 if __name__ == "__main__":
-	mylogr = MyLogistcRegression
+	mylogr = MyLogisticRegression
 	theta = np.array([[-2.4], [-1.5], [0.3], [-1.4], [0.7]])
 	# Example 1:
 	model1 = mylogr(theta, lambda_=5.0)
