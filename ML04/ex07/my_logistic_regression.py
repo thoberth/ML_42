@@ -22,9 +22,9 @@ class MyLogisticRegression(ParentMLR):
 	def gradient_(self, x, y):
 		theta_prime = np.array(self.theta)
 		theta_prime[0][0] = 0
-		X_prime = np.concatenate((np.ones((x.shape[0], 1)), x), axis=1)
+		X_prime = np.hstack((np.ones((x.shape[0], 1)), x))
 		J = (X_prime.T.dot(super().predict_(x) - y) +
-			lambda_ * theta_prime) / y.shape[0]
+			self.lambda_ * theta_prime) / y.shape[0]
 		return J
 
 	def fit_(self, x, y):
@@ -33,8 +33,20 @@ class MyLogisticRegression(ParentMLR):
 		else:
 			for _ in range(self.max_iter):
 				log_gradient = self.gradient_(x, y)
-				self.theta = self.theta - (self.alpha * log_gradient)
+				self.theta -= (self.alpha * log_gradient)
 			return self.theta
+
+	def loss_(self, y, y_hat, eps=1e-15):
+		if self.penalty != 'l2':
+			return super().loss_(x, y)
+		else:
+			theta_prime = np.array(self.theta)
+			theta_prime[0][0] = 0
+			v_ones = np.ones((y.shape[0], 1))
+			log_loss = - float((y.T.dot(np.log(y_hat + eps)) + (v_ones -
+							y).T.dot(np.log(v_ones - y_hat + eps))) / y.shape[0])
+			reg = float(theta_prime.T.dot(theta_prime))
+		return log_loss + (self.lambda_ / (2 * y.shape[0])) * reg
 
 
 if __name__ == "__main__":

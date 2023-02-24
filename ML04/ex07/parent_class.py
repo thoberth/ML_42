@@ -18,14 +18,11 @@ class MyLogisticRegression():
 	def predict_(self, x):
 		if not (isinstance(x, np.ndarray) and isinstance(self.theta, np.ndarray)) or\
 		(x.shape not in [(x.shape[0],), (x.shape[0], self.theta.shape[0] - 1)]) or\
-                        (self.theta.shape not in [(self.theta.shape[0],), (self.theta.shape[0], 1)]):
+						(self.theta.shape not in [(self.theta.shape[0],), (self.theta.shape[0], 1)]):
 			print('logistic predict function error in parameters')
 			return None
-		x = np.concatenate((np.ones((x.shape[0], 1)), x), axis=1)
-		y_hat = np.ones((x.shape[0], 1))
-		for i in range(x.shape[0]):
-			y_hat[i][0] = (1. / (1. + math.exp(-(x[i] @ self.theta))))
-		return y_hat
+		extended_x = np.hstack((np.ones((x.shape[0], 1)), x))
+		return 1 / (1 + np.e ** - extended_x.dot(self.theta))
 
 	def vec_log_gradient(self, x, y):
 		X = np.concatenate((np.ones((x.shape[0], 1)), x), axis=1)
