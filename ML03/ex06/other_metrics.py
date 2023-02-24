@@ -46,7 +46,9 @@ def precision_score_(y, y_hat, pos_label=1):
 		This function should not raise any Exception.
 	"""
 	tp, tn, fp, fn = count_metrics(y, y_hat, pos_label)
-	return (tp / (tp + fp))
+	if tp + fp == 0:
+		return 0
+	return float(tp / (tp + fp))
 
 
 def recall_score_(y, y_hat, pos_label=1):
@@ -63,7 +65,9 @@ def recall_score_(y, y_hat, pos_label=1):
 		This function should not raise any Exception.
 	"""
 	tp, tn, fp, fn = count_metrics(y, y_hat, pos_label)
-	return (tp / (tp + fn))
+	if tp + fn == 0:
+		return 0
+	return float(tp / (tp + fn))
 
 def f1_score_(y, y_hat, pos_label=1):
 	"""
@@ -80,7 +84,9 @@ def f1_score_(y, y_hat, pos_label=1):
 	"""
 	prec = precision_score_(y, y_hat, pos_label)
 	rec = recall_score_(y, y_hat, pos_label)
-	return ((2 * prec * rec)/(prec + rec))
+	if prec + rec == 0:
+		return 0
+	return float((2 * prec * rec)/(prec + rec))
 
 if __name__ == "__main__":
 	# Example 1:

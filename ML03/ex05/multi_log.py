@@ -22,18 +22,18 @@ if __name__=="__main__":
 	df_y = pd.read_csv('resources/solar_system_census_planets.csv')
 	df_x = np.array(df_x[['weight', 'height', 'bone_density']])
 	df_y = np.array(df_y[['Origin']])
-	for i in range(df_x.shape[1]):
+	for i in range(df_x.shape[1]): # normalisation et split des données
 		df_x[:, i] = zscore(df_x[:, i])
 	x_train, x_test, y_train, y_test = data_spliter(df_x, df_y, 0.8)
-	thetas_lst = []
-	for i in range(4):
+	thetas_lst = [] # differents modeles
+	for i in range(4): # on entraine un modele pour chaque planete
 		Y = sort_y(i, np.copy(y_train))
 		reg = MyLR(np.random.rand(x_train.shape[1] + 1, 1).reshape(-1, 1), max_iter=75000)
 		reg.fit_(x_train, Y)
 		thetas_lst.append(reg)
-	pred = []
+	pred = [] # differentes valeurs de y_hat
 	for i in thetas_lst:
-		pred.append(i.predict_(x_test))
+		pred.append(i.predict_(x_test)) # on enregistre les valeurs y_hat de chaque modeles
 	y_hat = np.zeros(y_test.shape)
 	for i, theta_zero, theta_one, theta_two, theta_three in zip(range(len(y_hat)), pred[0], pred[1], pred[2], pred[3]):
 		best = max(theta_zero, theta_one, theta_two, theta_three)
