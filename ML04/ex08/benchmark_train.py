@@ -48,8 +48,8 @@ def train_models(X, y, lambda_):
 	perm = np.random.permutation(len(X))
 	s_x = X[perm]
 	s_y = y[perm]
-	x_cross = np.array_split(s_x, 10)
-	y_cross = np.array_split(s_y, 10)
+	x_cross = np.array_split(s_x, 5)
+	y_cross = np.array_split(s_y, 5)
 	modeles = []
 	score = []
 	for i in range(len(x_cross)):
